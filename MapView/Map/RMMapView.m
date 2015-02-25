@@ -1006,8 +1006,8 @@
 	normalizedProjectedPoint.x = centerProjectedPoint.x + fabs(planetBounds.origin.x);
 	normalizedProjectedPoint.y = centerProjectedPoint.y + fabs(planetBounds.origin.y);
 
-    [_mapScrollView setContentOffset:CGPointMake(normalizedProjectedPoint.x / _metersPerPixel - _mapScrollView.bounds.size.width/2.0,
-                                                _mapScrollView.contentSize.height - ((normalizedProjectedPoint.y / _metersPerPixel) + _mapScrollView.bounds.size.height/2.0))
+  [_mapScrollView setContentOffset:CGPointMake(_metersPerPixel != 0.0 ? (normalizedProjectedPoint.x / _metersPerPixel - _mapScrollView.bounds.size.width/2.0) : 0.0,
+                                               _metersPerPixel != 0.0 ? (_mapScrollView.contentSize.height - ((normalizedProjectedPoint.y / _metersPerPixel) + _mapScrollView.bounds.size.height/2.0)) : 0.0)
                            animated:animated];
 
 //    RMLog(@"setMapCenterProjectedPoint: {%f,%f} -> {%.0f,%.0f}", centerProjectedPoint.x, centerProjectedPoint.y, mapScrollView.contentOffset.x, mapScrollView.contentOffset.y);
@@ -1065,10 +1065,10 @@
 	normalizedProjectedPoint.y = boundsRect.origin.y + fabs(planetBounds.origin.y);
 
     float zoomScale = _mapScrollView.zoomScale;
-    CGRect zoomRect = CGRectMake((normalizedProjectedPoint.x / _metersPerPixel) / zoomScale,
-                                 ((planetBounds.size.height - normalizedProjectedPoint.y - boundsRect.size.height) / _metersPerPixel) / zoomScale,
-                                 (boundsRect.size.width / _metersPerPixel) / zoomScale,
-                                 (boundsRect.size.height / _metersPerPixel) / zoomScale);
+  CGRect zoomRect = CGRectMake(_metersPerPixel != 0.0 ? ((normalizedProjectedPoint.x / _metersPerPixel) / zoomScale) : 0.0,
+                                 _metersPerPixel != 0.0 ? (((planetBounds.size.height - normalizedProjectedPoint.y - boundsRect.size.height) / _metersPerPixel) / zoomScale) : 0.0,
+                                 _metersPerPixel != 0.0 ? ((boundsRect.size.width / _metersPerPixel) / zoomScale) : 0.0,
+                                 _metersPerPixel != 0.0 ? ((boundsRect.size.height / _metersPerPixel) / zoomScale) : 0.0);
     [_mapScrollView zoomToRect:zoomRect animated:animated];
 }
 
@@ -2751,7 +2751,7 @@
 	normalizedProjectedPoint.y = projectedPoint.y + fabs(planetBounds.origin.y);
 
     // \bug: There is a rounding error here for high zoom levels
-    CGPoint projectedPixel = CGPointMake((normalizedProjectedPoint.x / _metersPerPixel) - _mapScrollView.contentOffset.x, (_mapScrollView.contentSize.height - (normalizedProjectedPoint.y / _metersPerPixel)) - _mapScrollView.contentOffset.y);
+  CGPoint projectedPixel = CGPointMake(_metersPerPixel != 0.0 ? ((normalizedProjectedPoint.x / _metersPerPixel) - _mapScrollView.contentOffset.x) : 0.0, _metersPerPixel != 0.0 ? ((_mapScrollView.contentSize.height - (normalizedProjectedPoint.y / _metersPerPixel)) - _mapScrollView.contentOffset.y) : 0.0);
 
 //    RMLog(@"pointToPixel: {%f,%f} -> {%f,%f}", projectedPoint.x, projectedPoint.y, projectedPixel.x, projectedPixel.y);
 
@@ -2797,7 +2797,7 @@
 
 - (CGSize)projectedSizeToViewSize:(RMProjectedSize)projectedSize
 {
-    return CGSizeMake(projectedSize.width / _metersPerPixel, projectedSize.height / _metersPerPixel);
+  return CGSizeMake(_metersPerPixel != 0.0 ? (projectedSize.width / _metersPerPixel) : 0.0, _metersPerPixel != 0.0 ? (projectedSize.height / _metersPerPixel) : 0.0);
 }
 
 - (RMProjectedPoint)projectedOrigin
@@ -2931,8 +2931,8 @@
 	normalizedProjectedPoint.x = annotation.projectedLocation.x + fabs(planetBounds.origin.x);
 	normalizedProjectedPoint.y = annotation.projectedLocation.y + fabs(planetBounds.origin.y);
 
-    CGPoint newPosition = CGPointMake((normalizedProjectedPoint.x / _metersPerPixel) - _mapScrollView.contentOffset.x,
-                                      _mapScrollView.contentSize.height - (normalizedProjectedPoint.y / _metersPerPixel) - _mapScrollView.contentOffset.y);
+  CGPoint newPosition = CGPointMake(_metersPerPixel != 0.0 ? ((normalizedProjectedPoint.x / _metersPerPixel) - _mapScrollView.contentOffset.x) : 0.0,
+                                    _metersPerPixel != 0.0 ? (_mapScrollView.contentSize.height - (normalizedProjectedPoint.y / _metersPerPixel) - _mapScrollView.contentOffset.y) : 0.0);
 
 //    RMLog(@"Change annotation at {%f,%f} in mapView {%f,%f}", annotation.position.x, annotation.position.y, mapScrollView.contentSize.width, mapScrollView.contentSize.height);
 
