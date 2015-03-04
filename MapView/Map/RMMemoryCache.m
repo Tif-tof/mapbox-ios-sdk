@@ -118,6 +118,10 @@
     return [cachedObject cachedObject];
 }
 
+- (UIImage *)cachedImage:(RMTile)tile withCacheKey:(NSString *)cacheKey bypassingMemoryCache:(BOOL)shouldBypassMemoryCache {
+    return [self cachedImage:tile withCacheKey:cacheKey];
+}
+
 - (NSUInteger)capacity
 {
     return _memoryCacheCapacity;
