@@ -909,6 +909,14 @@
 
 // ===
 
+- (void)resetConstraints {
+  [self resetProjectedConstraints];
+}
+
+- (void)resetProjectedConstraints {
+  _constrainMovement = _constrainMovementByUser = NO;
+}
+
 - (void)setConstraintsSouthWest:(CLLocationCoordinate2D)southWest northEast:(CLLocationCoordinate2D)northEast
 {
     RMProjectedPoint projectedSouthWest = [_projection coordinateToProjectedPoint:southWest];

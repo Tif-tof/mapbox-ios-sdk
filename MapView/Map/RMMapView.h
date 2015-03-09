@@ -277,6 +277,9 @@ typedef enum : NSUInteger {
 
 /** @name Constraining the Map */
 
+- (void)resetConstraints;
+- (void)resetProjectedConstraints;
+
 /** Contrain zooming and panning of the map view to a given coordinate boundary.
 *   @param southWest The southwest point to constrain to.
 *   @param northEast The northeast point to constrain to. */
