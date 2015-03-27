@@ -133,7 +133,7 @@
     {
         // add SDK info
         //
-        NSString *appName = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleDisplayName"];
+        NSString *appName = [[[NSBundle bundleForClass:[self class]] infoDictionary] valueForKey:@"CFBundleDisplayName"];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"yyyy"];
         NSString *currentYear = [dateFormatter stringFromDate:[NSDate date]];
