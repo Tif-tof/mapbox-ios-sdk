@@ -88,6 +88,8 @@ typedef enum : NSUInteger {
 *   The default value is `NO`. */
 @property (nonatomic, assign) BOOL bouncingEnabled;
 
+@property (nonatomic, assign) BOOL tapGesturesEnabled;
+
 /** A Boolean value that determines whether double-tap zooms of the map always zoom on the center of the map, or whether they zoom on the center of the double-tap gesture. The default value is `NO`, which zooms on the gesture. */
 @property (nonatomic, assign) BOOL zoomingInPivotsAroundCenter;
 

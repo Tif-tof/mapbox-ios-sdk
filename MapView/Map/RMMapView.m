@@ -249,6 +249,7 @@
 {
     _constrainMovement = _constrainMovementByUser = _bouncingEnabled = _zoomingInPivotsAroundCenter = NO;
     _draggingEnabled = YES;
+    _tapGesturesEnabled = YES;
 
     _draggedAnnotation = nil;
 
@@ -1711,6 +1712,10 @@
 
 - (void)doubleTapAtPoint:(CGPoint)aPoint
 {
+    if(!self.tapGesturesEnabled) {
+        return;
+    }
+  
     if (self.zoom < self.maxZoom)
     {
         [self registerZoomEventByUser:YES];
@@ -1768,6 +1773,10 @@
 
 - (void)handleTwoFingerSingleTap:(UIGestureRecognizer *)recognizer
 {
+    if(!self.tapGesturesEnabled) {
+        return;
+    }
+  
     if (self.zoom > self.minZoom)
     {
         [self registerZoomEventByUser:YES];
