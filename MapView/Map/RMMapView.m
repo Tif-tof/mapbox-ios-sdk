@@ -2413,12 +2413,14 @@
     if (_backgroundView)
         [_backgroundView removeFromSuperview];
 
-    if ( ! aView)
+    if ( ! aView || [aView isKindOfClass:[RMLoadingTileView class]])
     {
-        if ( ! _loadingTileView)
+        if ([aView isKindOfClass:[RMLoadingTileView class]])
+          _loadingTileView = aView;
+        else if ( ! _loadingTileView)
             _loadingTileView = [[RMLoadingTileView alloc] initWithFrame:self.bounds];
-
-        aView = _loadingTileView;
+        else
+            aView = _loadingTileView;
     }
     else
         _loadingTileView = nil;

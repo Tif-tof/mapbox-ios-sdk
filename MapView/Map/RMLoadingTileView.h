@@ -32,4 +32,6 @@
 
 @property (nonatomic, assign) BOOL mapZooming;
 
+@property (nonatomic, retain) UIImage * patternImage;
+
 @end

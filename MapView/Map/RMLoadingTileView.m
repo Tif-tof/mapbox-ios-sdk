@@ -51,6 +51,8 @@
         self.userInteractionEnabled = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+      
+        self.patternImage = [RMMapView resourceImageNamed:(RMPostVersion6 ? @"LoadingTile6.png" : @"LoadingTile.png")];
     }
     
     return self;
@@ -64,7 +66,7 @@
     }
     else
     {
-        _contentView.backgroundColor = [UIColor colorWithPatternImage:[RMMapView resourceImageNamed:(RMPostVersion6 ? @"LoadingTile6.png" : @"LoadingTile.png")]];
+        _contentView.backgroundColor = [UIColor colorWithPatternImage:self.patternImage];
         
         _contentView.frame = CGRectMake(0, 0, self.frame.size.width * 3, self.frame.size.height * 3);
         self.contentSize = _contentView.bounds.size;
