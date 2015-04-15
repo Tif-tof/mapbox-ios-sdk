@@ -287,6 +287,13 @@
 
     _zoomDelegateQueue = [NSOperationQueue new];
     [_zoomDelegateQueue setMaxConcurrentOperationCount:1];
+  
+    if([_moveDelegateQueue respondsToSelector:@selector(qualityOfService)]) {
+        _moveDelegateQueue.qualityOfService = NSOperationQualityOfServiceUserInteractive;
+        _zoomDelegateQueue.qualityOfService = NSOperationQualityOfServiceUserInteractive;
+        _moveDelegateQueue.underlyingQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        _zoomDelegateQueue.underlyingQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    }
 
     [self setTileCache:[RMTileCache new]];
 
