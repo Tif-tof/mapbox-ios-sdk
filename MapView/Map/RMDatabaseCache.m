@@ -63,28 +63,38 @@
 
 + (NSString *)dbPathUsingCacheDir:(BOOL)useCacheDir
 {
-	NSArray *paths;
+    NSString * (^ pathUsingCacheDir)(BOOL) = ^NSString *(BOOL useCacheDir) {
+        NSArray *paths;
 
-	if (useCacheDir)
-		paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-	else
-		paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        if (useCacheDir)
+            paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        else
+            paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 
-	if ([paths count] > 0) // Should only be one...
-	{
-		NSString *cachePath = [paths objectAtIndex:0];
+        if ([paths count] > 0) // Should only be one...
+        {
+            NSString *cachePath = [paths objectAtIndex:0];
 
-		// check for existence of cache directory
-		if ( ![[NSFileManager defaultManager] fileExistsAtPath: cachePath])
-		{
-			// create a new cache directory
-			[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:NO attributes:nil error:nil];
-		}
+            // check for existence of cache directory
+            if ( ![[NSFileManager defaultManager] fileExistsAtPath: cachePath])
+            {
+                // create a new cache directory
+                [[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:NO attributes:nil error:nil];
+            }
 
-		return [cachePath stringByAppendingPathComponent:@"RMTileCache.db"];
-	}
+            return [cachePath stringByAppendingPathComponent:@"RMTileCache.db"];
+        }
 
-	return nil;
+        return nil;
+    };
+
+    NSString * documentPath = pathUsingCacheDir(NO);
+    NSString * cachePath = pathUsingCacheDir(YES);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:documentPath isDirectory:nil]) {
+        [[NSFileManager defaultManager] moveItemAtPath:documentPath toPath:cachePath error:nil];
+    }
+
+    return cachePath;
 }
 
 - (void)configureDBForFirstUse
